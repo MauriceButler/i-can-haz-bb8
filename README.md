@@ -27,7 +27,7 @@ If you manage to collect all the sabers on level 3 the game will crash.
 
 Cause I was lazy.
 
-Also, there is not collision detection on walls...
+~~Also, there is no collision detection on walls...~~  [2cf3af6](https://github.com/MauriceButler/i-can-haz-bb8/commit/2cf3af60bef91df36ecc59231143727bcd0ebb0e)
 
 :shipit:
 
