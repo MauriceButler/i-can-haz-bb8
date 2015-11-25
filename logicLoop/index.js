@@ -1,4 +1,5 @@
 var state = require('^state'),
+    levels = require('^levels'),
     imageMaps = require('^imageMaps');
 
 function setOrientation(){
@@ -32,8 +33,37 @@ function checkForPickup(){
     });
 }
 
-function checkWall(){
+function checkCanMove(position){
+    var level = levels.layouts[state.currentLevel];
 
+    var x = position.x + imageMaps.bb8[0][0].length / 2,
+        y = position.y + imageMaps.bb8[0].length / 2;
+
+    return !level.some(function(row, rowIndex){
+        return row.some(function(cell, columnIndex){
+            if(
+                cell === 1 &&
+                y > (rowIndex * 5) && y < (rowIndex * 5 + 8) &&
+                x > (columnIndex * 10) && x < (columnIndex * 10 + 11)
+            ){
+                return true;
+            }
+        });
+    });
+}
+
+function moveBB8(){
+    var newPosition = {
+        x: state.position.x + state.movement.x * 6,
+        y: state.position.y + state.movement.y * 3
+    };
+
+    if(checkCanMove(newPosition)){
+        state.position.x = newPosition.x;
+        state.position.y = newPosition.y;
+    }
+
+    state.movement = {x:0,y:0};
 }
 
 function checkNextLevel(){
@@ -46,7 +76,7 @@ module.exports = function(){
     if(state.mode === 'play' && state.loaded[state.currentLevel]){
         setOrientation();
         checkForPickup();
-        checkWall();
+        moveBB8();
         checkNextLevel();
     }
 };
