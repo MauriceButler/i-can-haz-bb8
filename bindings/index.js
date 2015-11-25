@@ -2,26 +2,36 @@ var keypress = require('keypress'),
     state = require('^state'),
     ctx = require('axel');
 
-function playBindings(key){
-    switch (key) {
-        case 'a':
-            state.position.x -= 3;
-        break;
-        case 'd':
-            state.position.x += 3;
-        break;
-        case 'w':
-            state.position.y -= 3;
-        break;
-        case 's':
-            state.position.y += 3;
-        break;
-    }
+function left(movement){
+    movement.x = -1;
+}
+
+function right(movement){
+    movement.x = 1;
+}
+
+function up(movement){
+    movement.y = -1;
+}
+
+function down(movement){
+    movement.y = 1;
+}
+
+var move = {
+    a: left,
+    d: right,
+    w: up,
+    s: down
+};
+
+function moveBB8(key){
+    move[key] && move[key](state.movement);
 }
 
 function keyBindings(key){
     if(state.mode === 'play'){
-        playBindings(key);
+        moveBB8(key);
         return;
     }
 }
